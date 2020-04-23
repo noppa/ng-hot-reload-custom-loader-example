@@ -1,4 +1,4 @@
-import angular from 'angular'
+import 'angular'
 
 import SomeComponentControllerLoader from './controller'
 import SomeComponentLoader from './component'

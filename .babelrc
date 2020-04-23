@@ -3,7 +3,7 @@
     "@babel/plugin-proposal-class-properties"
   ],
   "env": {
-    "debug": {
+    "development": {
       "presets": [
         [
           "@babel/preset-env",

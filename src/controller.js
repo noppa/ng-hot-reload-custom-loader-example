@@ -1,6 +1,6 @@
 class SomeComponentController {
   counter = 0
-  incr() { this.counter++ }
+  incr() { this.counter += 12 }
   decr() { this.counter-- }
 }
 

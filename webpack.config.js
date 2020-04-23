@@ -12,15 +12,15 @@ let jsLoaders = ['babel-loader'];
 
 const customHotLoader = './development/hot-loader.js'
 
-// if (mode === 'development') {
-//   // Enables hot-reloading using the ng-hot-reload library
-//   // Only used in development, not in production.
-//   jsLoaders = [customHotLoader].concat(jsLoaders);
-//   entry = [
-//     'webpack-dev-server/client?http://localhost:8080',
-//     'webpack/hot/only-dev-server',
-//   ].concat(entry);
-// }
+if (mode === 'development') {
+  // Enables hot-reloading using the ng-hot-reload library
+  // Only used in development, not in production.
+  jsLoaders = [customHotLoader].concat(jsLoaders);
+  entry = [
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+  ].concat(entry);
+}
 
 const distPath = path.join(__dirname, 'dist')
 
@@ -63,5 +63,6 @@ module.exports = {
     hot: true,
     contentBase: distPath,
     port: 8080,
+    hotOnly: true,
   },
 };
