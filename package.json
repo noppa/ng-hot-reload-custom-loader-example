@@ -1,0 +1,20 @@
+{
+  "name": "ng-hot-reload-issue-24-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "ng-hot-reload-core": "^3.0.0",
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
