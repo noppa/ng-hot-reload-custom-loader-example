@@ -1,0 +1,29 @@
+{
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ],
+  "env": {
+    "debug": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            // Required for ng-hot-reload to work
+            "modules": "commonjs"
+          }
+        ]
+      ]
+    },
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            // Let webpack handle modules in production mode to enable tree shaking.
+            "modules": false
+          }
+        ]
+      ]
+    }
+  }
+}
