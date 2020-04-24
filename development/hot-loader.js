@@ -86,8 +86,11 @@ const codeWrapperBottom = ({ requireAngular }) =>
         });
       })();
 })(${ requireAngular});
-/* hot-loader end */
 `;
+
+// The rest of the file is basically just copy-pasted from
+// ng-hot-reload-loader package's index.js
+// https://github.com/noppa/ng-hot-reload/blob/e031461d188ffbc838b2348e0dfd8da76f29227e/packages/loader/index.js
 
 async function transform(source, map) {
   if (this.cacheable) {
