@@ -10,7 +10,6 @@ const noTransform =
 
 const codeWrapperTop = ({ corePath, forceRefresh, preserveState }) =>
   `
-/* hot-loader start */
 (function(__ngHotReloadLoaderAngularGlobal) {
   var angular = module.hot ? (function() {
     var loader = require(${corePath});
@@ -20,16 +19,12 @@ const codeWrapperTop = ({ corePath, forceRefresh, preserveState }) =>
       preserveState: Boolean(${preserveState})
     });
   })() : __ngHotReloadLoaderAngularGlobal;
-  try {
-    (function() {/* hot-loader end*/
 `;
 
 const codeWrapperBottom = ({ requireAngular }) =>
   `
-      
       ;(function() {
         if (!module.hot) {
-          console.log('not hot reloading');
           return;
         }
         const moduleRegex = /module/i
@@ -47,47 +42,49 @@ const codeWrapperBottom = ({ requireAngular }) =>
           // Get argument names using the same function that angular uses for DI
           const argNames = angular.injector.$$annotate(exportedValue)
           delete exportedValue.$inject; // $$annotate will add this property, we don't need it.
+
+          // We assume that the function is a loader if it has exactly one argument called "module".
           if (argNames.length !== 1 || !moduleRegex.test(argNames[0])) {
             return false
           }
           const functionSource = exportedValue.toString()
+          // The function must also do something like module.component(
           return doesRegisterSomethingRegex.test(functionSource)
         }
 
         const loaderExport = Object.entries(module.exports).find(isComponentLoader)
-        console.log('again', loaderExport)
         if (!loaderExport) return
         const [exportedKey, exportedFunction] = loaderExport
-        
-        if (!module.hot.data) module.hot.data = {}
-        const ngModuleName = module.hot.data.ngModuleName
+
+        // Optimistically assume that the exported function is going to register providers.
+        angular.__ngHotReload$didRegisterProviders = true
+
+        // Globally store the module name that we are supposed to use.
+        if (!window._hotReloadedModulesCache) {
+          window._hotReloadedModulesCache = {}
+        }
+        const moduleId = module.id
+
+        const ngModuleName = window._hotReloadedModulesCache[moduleId]
         if (!ngModuleName) {
-          // Export mock function that will capture the arg name
+          // Export mock function that will capture the module name.
           module.exports[exportedKey] = function(ngModule) {
-            const name = module.hot.data.ngModuleName = ngModule.name
+            const name = window._hotReloadedModulesCache[moduleId] = ngModule.name
             const mod = angular.module(name)
-            console.log('called first time', mod.controller);
-            return exportedFunction(mod);
+            return exportedFunction(mod)
           };
         } else {
-          console.log('again');
+          // We already have the module name and can just call the component loader
+          // with mocked angular module.
           exportedFunction(angular.module(ngModuleName));
         }
-      })();
 
-    })();/* hot-loader start */
-  } finally {
-    (function() {
-      console.log(angular.__ngHotReload$didRegisterProviders)
-      if (module.hot && angular.__ngHotReload$didRegisterProviders) {
         module.hot.accept(function(err) {
           if (err) {
             console.error(err);
           }
         });
-      }
-    })();
-  }
+      })();
 })(${ requireAngular});
 /* hot-loader end */
 `;

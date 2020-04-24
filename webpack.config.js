@@ -63,6 +63,6 @@ module.exports = {
     hot: true,
     contentBase: distPath,
     port: 8080,
-    hotOnly: true,
+    // hotOnly: true, // Disable hard reloading for testing purposes.
   },
 };
