@@ -16,6 +16,9 @@ Your setup may vary and the loader needs to be modified accordingly.
 
 # Running the demo app
 ```
+git clone https://github.com/noppa/ng-hot-reload-custom-loader-example.git
+cd ng-hot-reload-custom-loader-example
+npm install
 npm start
 ```
 Open localhost:8080.  
