@@ -37,7 +37,7 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: jsLoaders,
+        use: jsLoaders,
         exclude: /node_modules/,
       },
       {
@@ -46,7 +46,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
